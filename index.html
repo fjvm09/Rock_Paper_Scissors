@@ -4,19 +4,84 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rock-Paper-Scissors</title>
 </head>
 <body>
     
 </body>
 <script>
+    const computerChoices = ["paper", "rock", "scissors"];
+    let playerSelection = '';
+    let result;
+    let computerSelection;
+    let playerWins = 0;
+    let computerWins = 0;
+    let i = 1;
+
     function random(number){
         return Math.floor(Math.random()*number)
     }
-    const computerChoices = ["Paper", "Rock", "Scissors"];
+  
     function getComputerChoice(){
-        let computerChoice = (random(computerChoices.length), computerChoices[random(computerChoices.length)]);
-        console.log(computerChoice);
+        computerSelection = (random(computerChoices.length), computerChoices[random(computerChoices.length)]);
+        console.log(computerSelection);
     }
+
+    function getPlayerChoice(){
+        playerSelection = prompt(`Round ${i}! Rock, Paper, Scissor! Choose one!`)
+        if (playerSelection !== null){
+        playerSelection = playerSelection.toLowerCase();
+        }
+        console.log(playerSelection);
+    }
+
+    function run(){
+        if (computerSelection == playerSelection){
+            result = "Draw!"
+        } else if ((computerSelection == "rock" && playerSelection == "scissors") || (computerSelection == 'scissors' && playerSelection == 'paper') || (computerSelection == 'paper' && playerSelection == 'rock')) {
+            result = "Defeat!"
+        } else if ((computerSelection == "scissors" && playerSelection == "rock") || (computerSelection == 'paper' && playerSelection == 'scissors') || (computerSelection == 'rock' && playerSelection == 'paper')) {
+            result = "Victory!"
+        }  else {
+            result = "Error"
+        } 
+        console.log(result);
+    }
+    
+    function play(){
+        for(i = 1; i <= 5; i++){
+            getComputerChoice();
+            getPlayerChoice();
+            if (playerSelection == null){
+                alert("Don't you wanna play the game?")
+                break;
+            }
+            run();
+            if (result === 'Draw!'){
+                alert(`Round ${i} is a ${result} ${(computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1))} and ${(playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1))} are the same!`)
+            } else if (result === 'Defeat!'){
+                computerWins++;
+                alert(`Round ${i} is a ${result} ${(computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1))} beats ${(playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1))}! Better luck next time!`)
+            } else if (result === 'Victory!'){
+                playerWins++;
+                alert(`Round ${i} is a ${result} ${(playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1))} beats ${(computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1))}! Well done!`)
+            } else {
+                alert(`${result}`)
+                break;
+            }
+        } if (i < 5){
+            alert('Error. Not enough Rounds.')
+        } else if (computerWins == playerWins) {
+            alert('It is a Draw! What a match!')
+        } else if (computerWins < playerWins) {
+            alert('It is a Victory! Humanity still has a chance!')
+        } else if (computerWins > playerWins) {
+            alert('It is a Defeat! Seems like the machine has surpassed humanity!')
+        } else {
+            alert('Error')
+        }
+    }
+
+
 </script>
 </html>
