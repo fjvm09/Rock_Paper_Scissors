@@ -126,6 +126,13 @@
         })
     })
 
+    btn.forEach(function(btn){
+        btn.addEventListener('touchstart', (e)=> {
+            playerSelection = e.path[0].classList.value;
+            playRound();
+        })
+    })
+
     results.appendChild(playerScore);
     results.appendChild(computerScore);
     results.appendChild(finalScore);
