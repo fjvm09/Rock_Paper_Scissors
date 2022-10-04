@@ -7,16 +7,33 @@
     <title>Rock-Paper-Scissors</title>
 </head>
 <body>
-    
+    <div class="buttons">
+        <button class="rock">ROCK</button>
+        <button class="paper">PAPER</button>
+        <button class="scissors">SCISSORS</button>
+    </div>
+    <div class="score"></div>
+    <div class="selection"></div>
 </body>
 <script>
+    const results = document.querySelector('.score');
+    const btn = document.querySelectorAll('button');
+    const btnRock = document.querySelector('.rock');
+    const btnPaper = document.querySelector('.paper');
+    const btnScissor = document.querySelector('.scissor');
     const computerChoices = ["paper", "rock", "scissors"];
+    const playerScore = document.createElement('p');
+    const computerScore = document.createElement('p');
+    const finalScore = document.createElement('p');
+    const selection = document.querySelector('.selection');
+    const playerSelected = document.createElement('p');
+    const computerSelected = document.createElement('p');
+    const resultText = document.createElement('p');
     let playerSelection = '';
     let result;
     let computerSelection;
     let playerWins = 0;
     let computerWins = 0;
-    let i = 1;
 
     function random(number){
         return Math.floor(Math.random()*number)
@@ -26,59 +43,94 @@
         computerSelection = (random(computerChoices.length), computerChoices[random(computerChoices.length)]);
     }
 
-    function getPlayerChoice(){
-        playerSelection = prompt(`Round ${i}! Rock, Paper, Scissor! Choose one!`)
-        if (playerSelection !== null){
-        playerSelection = playerSelection.toLowerCase();
+    //function getPlayerChoice(){
+    //    playerSelection = prompt(`Round ${i}! Rock, Paper, Scissor! Choose one!`)
+    //    if (playerSelection !== null){
+    //    playerSelection = playerSelection.toLowerCase();
+    //    }
+    //}
+    
+    function score(){
+        playerScore.textContent = `Player: ${playerWins}.`;
+        computerScore.textContent = `Computer: ${computerWins}.`;
+        resultText.textContent = `It is a ${result}`
+        playerSelected.textContent = `You selected ${(playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1))}`;
+        computerSelected.textContent = `The Computers selected ${(computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1))}`;
+        if (computerWins == 5){
+            finalScore.textContent = 'It is a Defeat! Seems like the machine has surpassed humanity!';
+            btn.forEach(function(btn){
+                btn.disabled = true})
+            selection.removeChild(resultText);
+        } else if (playerWins == 5) {
+            finalScore.textContent = 'It is a Victory! Humanity still has a chance!';
+            btn.forEach(function(btn){
+                btn.disabled = true})
+            selection.removeChild(resultText);
         }
     }
 
-    function run(){
+    function playRound(){
+        getComputerChoice();
         if (computerSelection == playerSelection){
             result = "Draw!"
         } else if ((computerSelection == "rock" && playerSelection == "scissors") || (computerSelection == 'scissors' && playerSelection == 'paper') || (computerSelection == 'paper' && playerSelection == 'rock')) {
             result = "Defeat!"
+            computerWins++;
         } else if ((computerSelection == "scissors" && playerSelection == "rock") || (computerSelection == 'paper' && playerSelection == 'scissors') || (computerSelection == 'rock' && playerSelection == 'paper')) {
             result = "Victory!"
+            playerWins++;
         }  else {
             result = "Error"
-        } 
+        } score();
+        console.log(result);
     }
     
-    function play(){
-        for(i = 1; i <= 5; i++){
-            getComputerChoice();
-            getPlayerChoice();
-            if (playerSelection == null){
-                alert("Don't you wanna play the game?")
-                break;
-            }
-            run();
-            if (result === 'Draw!'){
-                alert(`Round ${i} is a ${result} ${(computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1))} and ${(playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1))} are the same!`)
-            } else if (result === 'Defeat!'){
-                computerWins++;
-                alert(`Round ${i} is a ${result} ${(computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1))} beats ${(playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1))}! Better luck next time!`)
-            } else if (result === 'Victory!'){
-                playerWins++;
-                alert(`Round ${i} is a ${result} ${(playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1))} beats ${(computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1))}! Well done!`)
-            } else {
-                alert(`${result}`)
-                break;
-            }
-        } if (i < 5){
-            alert('Error. Not enough Rounds.')
-        } else if (computerWins == playerWins) {
-            alert('It is a Draw! What a match!')
-        } else if (computerWins < playerWins) {
-            alert('It is a Victory! Humanity still has a chance!')
-        } else if (computerWins > playerWins) {
-            alert('It is a Defeat! Seems like the machine has surpassed humanity!')
-        } else {
-            alert('Error')
-        }
-    }
+    //function play(){
+    //    for(let i = 1; i <= 5; i++){
+    //        getComputerChoice();
+    //        getPlayerChoice();
+    //        if (playerSelection == null){
+    //            alert("Don't you wanna play the game?")
+    //            break;
+    //        }
+    //        playRound();
+    //        if (result === 'Draw!'){
+    //            alert(`Round ${i} is a ${result} ${(computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1))} and ${(playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1))} are the same!`)
+    //        } else if (result === 'Defeat!'){
+    //            computerWins++;
+    //            alert(`Round ${i} is a ${result} ${(computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1))} beats ${(playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1))}! Better luck next time!`)
+    //        } else if (result === 'Victory!'){
+    //            playerWins++;
+    //            alert(`Round ${i} is a ${result} ${(playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1))} beats ${(computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1))}! Well done!`)
+    //        } else {
+    //            alert(`${result}`)
+    //            break;
+    //        }
+    //    } if (i < 5){
+    //        alert('Error. Not enough Rounds.')
+    //    } else if (computerWins == playerWins) {
+    //        alert('It is a Draw! What a match!')
+    //    } else if (computerWins < playerWins) {
+    //        alert('It is a Victory! Humanity still has a chance!')
+    //    } else if (computerWins > playerWins) {
+    //        alert('It is a Defeat! Seems like the machine has surpassed humanity!')
+    //    } else {
+    //        alert('Error')
+    //    }
+    //}
 
+    btn.forEach(function(btn){
+        btn.addEventListener('click', (e)=> {
+            playerSelection = e.path[0].classList.value;
+            playRound();
+        })
+    })
 
+    results.appendChild(playerScore);
+    results.appendChild(computerScore);
+    results.appendChild(finalScore);
+    selection.appendChild(resultText);
+    selection.appendChild(playerSelected);
+    selection.appendChild(computerSelected);
 </script>
 </html>
