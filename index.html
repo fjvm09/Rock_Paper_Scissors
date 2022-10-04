@@ -16,6 +16,7 @@
     <div class="selection"></div>
 </body>
 <script>
+window.addEventListener('DOMContentLoaded', (event) => {
     const results = document.querySelector('.score');
     const btn = document.querySelectorAll('button');
     const btnRock = document.querySelector('.rock');
@@ -138,5 +139,6 @@
     selection.appendChild(resultText);
     selection.appendChild(playerSelected);
     selection.appendChild(computerSelected);
+    });
 </script>
 </html>
